@@ -3,7 +3,7 @@ resource "random_id" "random" {
 }
 
 resource "github_repository" "mtc_repo" {
-  name        = "mtc-repo"
+  name        = "mtc-repo-${random_id.random.dec}"
   description = "Code for MTC"
   visibility  = "private"
   auto_init   = true

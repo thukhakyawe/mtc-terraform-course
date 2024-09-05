@@ -63,3 +63,35 @@ terraform destroy -auto-approve
 ```
 terraform state list
 ```
+
+<span style="color: green;">For Show Terraform State Legacy option for the local backend only</span>
+
+```
+terraform console -state=path
+```
+Example Code 
+
+```
+@thukhakyawe ➜ /workspaces/mtc-terraform-course/terraform-code (main) $ terraform console -state="../state/terraform.tfstate"
+> random_id.random
+{
+  "b64_std" = "PPI="
+  "b64_url" = "PPI"
+  "byte_length" = 2
+  "dec" = "15602"
+  "hex" = "3cf2"
+  "id" = "PPI"
+  "keepers" = tomap(null) /* of string */
+  "prefix" = tostring(null)
+}
+> random_id.random.dec
+"15602"
+> "mtc-repo"
+"mtc-repo"
+> "mtc-repo-${random_id.random.dec}"
+"mtc-repo-15602"
+> "mtc-repo-${random_id.random.id}"
+"mtc-repo-PPI"
+> "mtc-repo-${random_id.random.hex}"
+"mtc-repo-3cf2
+```
