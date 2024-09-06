@@ -2,10 +2,18 @@ variable "repo_count" {
   type        = number
   description = "Number of repositories."
   default     = 1
+
+  validation {
+    condition     = var.repo_count < 5
+    error_message = "Do not deploy more than 5 repositories"
+  }
 }
 
-variable "varsource" {
+variable "env" {
   type        = string
-  description = "Soucre used to define variables."
-  default     = "variable.tf"
+  description = "Deployment environment"
+  validation {
+    condition     = var.env == "dev" || var.env == "prod"
+    error_message = "Env must be 'dev' or 'prod'"
+  }
 }
