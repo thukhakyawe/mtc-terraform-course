@@ -95,3 +95,27 @@ Example Code
 > "mtc-repo-${random_id.random.hex}"
 "mtc-repo-3cf2
 ```
+
+<span style="color: green;">For Show Terraform Output Results</span>
+
+```
+terraform output
+```
+
+![alt text](image.png)
+
+<span style="color: green;">For Show Terraform Output With Output Name</span>
+
+```
+terraform output -json repo-names
+```
+![alt text](image-1.png)
+
+<span style="color: green;">For Show Terraform Output With Json Format</span>
+
+```
+terraform output -json
+```
+
+
+![alt text](image-2.png)

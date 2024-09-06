@@ -29,3 +29,9 @@ resource "github_repository_file" "index" {
   content             = "# Hello, Terraform!"
   overwrite_on_create = true
 }
+
+output "repo-names" {
+  value       = github_repository.mtc_repo[*].name
+  description = "Repository Names"
+  sensitive   = true
+}
