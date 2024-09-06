@@ -460,3 +460,17 @@ Changes to Outputs:
 
 ![alt text](image-3.png)
 
+
+<span style="color: green;">For Show Terraform Plan to confirm the detected changes With -refresh-only</span>
+
+```
+terraform plan -refresh-only
+
+```
+<span style="color: green;">For Remove Terraform State But Report all of the resource instances that match the given address without actually "forgetting" any of them.</span>
+
+```
+terraform state rm -dry-run 'github_repository.mtc_repo[0]'
+```
+
+![alt text](image-4.png)
