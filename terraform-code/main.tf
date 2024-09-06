@@ -1,20 +1,20 @@
-resource "random_id" "random" {
-  byte_length = 2
-  count       = var.repo_count
-}
+# resource "random_id" "random" {
+#   byte_length = 2
+#   count       = var.repo_count
+# }
 
 resource "github_repository" "mtc_repo" {
-  count       = var.repo_count
-  name        = "mtc-repo-${random_id.random[count.index].dec}"
-  description = "Code for MTC"
+  for_each    = var.repos
+  name        = "mtc-repo-${each.key}"
+  description = "${each.value} Code for MTC"
   visibility  = var.env == "dev" ? "private" : "public"
   auto_init   = true
 }
 
 
 resource "github_repository_file" "readme" {
-  count               = var.repo_count
-  repository          = github_repository.mtc_repo[count.index].name
+  for_each            = var.repos
+  repository          = github_repository.mtc_repo[each.key].name
   branch              = "main"
   file                = "README.md"
   content             = "# This ${var.env} repository is for infra developers"
@@ -22,8 +22,8 @@ resource "github_repository_file" "readme" {
 }
 
 resource "github_repository_file" "index" {
-  count               = var.repo_count
-  repository          = github_repository.mtc_repo[count.index].name
+  for_each            = var.repos
+  repository          = github_repository.mtc_repo[each.key].name
   branch              = "main"
   file                = "index.html"
   content             = "# Hello, Terraform!"
@@ -31,7 +31,7 @@ resource "github_repository_file" "index" {
 }
 
 output "clone-urls" {
-  value       = { for i in github_repository.mtc_repo[*] : i.name => i.http_clone_url }
+  value       = { for i in github_repository.mtc_repo : i.name => i.http_clone_url }
   description = "Repository Names and URL"
   sensitive   = false
 }
