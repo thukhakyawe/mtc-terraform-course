@@ -7,7 +7,7 @@ resource "github_repository" "mtc_repo" {
   count       = var.repo_count
   name        = "mtc-repo-${random_id.random[count.index].dec}"
   description = "Code for MTC"
-  visibility  = "private"
+  visibility  = var.env == "dev" ? "private" : "public"
   auto_init   = true
 }
 
@@ -35,4 +35,6 @@ output "clone-urls" {
   description = "Repository Names and URL"
   sensitive   = false
 }
+
+
 

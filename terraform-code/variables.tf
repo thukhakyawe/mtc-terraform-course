@@ -17,3 +17,9 @@ variable "env" {
     error_message = "Env must be 'dev' or 'prod'"
   }
 }
+
+# variable "visibility" {
+#   type = string
+#   description = "Visibility for the repo."
+#   default = var.env == "dev" ? "private" : "public"
+# }
