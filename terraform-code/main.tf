@@ -13,14 +13,20 @@ resource "github_repository" "mtc_repo" {
     command = "gh repo view ${self.name} --web"
   }
 
-  provisioner "local-exec" {
-    command = "gh repo clone ${self.name} --web"    
-  }
 
   provisioner "local-exec" {
-    when = destroy
-    command = "rm -rf ${self.name}"    
+    when    = destroy
+    command = "rm -rf ${self.name}"
   }
+}
+
+resource "terraform_data" "repo-clone" {
+  for_each   = var.repos
+  depends_on = [github_repository_file.index, github_repository_file.readme]
+  provisioner "local-exec" {
+    command = "gh repo clone ${github_repository.mtc_repo[each.key].name}"
+  }
+
 }
 
 
