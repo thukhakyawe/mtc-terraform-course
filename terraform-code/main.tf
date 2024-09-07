@@ -32,6 +32,11 @@ resource "github_repository_file" "readme" {
   file                = "README.md"
   content             = "# This is ${var.env} ${each.value.lang} repository for ${each.key} developers"
   overwrite_on_create = true
+  lifecycle {
+    ignore_changes = [
+      content,
+    ]
+  }
 }
 
 resource "github_repository_file" "index" {
@@ -41,10 +46,14 @@ resource "github_repository_file" "index" {
   file                = each.value.filename
   content             = "# Hello ${each.value.lang}!"
   overwrite_on_create = true
+  lifecycle {
+    ignore_changes = [
+      content,
+    ]
+  }
 }
-
 output "clone-urls" {
-  value       = { for i in github_repository.mtc_repo : i.name => i.http_clone_url }
+  value       = { for i in github_repository.mtc_repo : i.name => [i.ssh_clone_url, i.http_clone_url] }
   description = "Repository Names and URL"
   sensitive   = false
 }
