@@ -1,12 +1,7 @@
-# resource "random_id" "random" {
-#   byte_length = 2
-#   count       = var.repo_count
-# }
-
 resource "github_repository" "mtc_repo" {
   for_each    = var.repos
   name        = "mtc-repo-${each.key}"
-  description = "${each.value} Code for MTC"
+  description = "${each.value.lang} Code for MTC"
   visibility  = var.env == "dev" ? "private" : "public"
   auto_init   = true
   provisioner "local-exec" {
@@ -35,7 +30,7 @@ resource "github_repository_file" "readme" {
   repository          = github_repository.mtc_repo[each.key].name
   branch              = "main"
   file                = "README.md"
-  content             = "# This ${var.env} repository is for infra developers"
+  content             = "# This is ${var.env} ${each.value.lang} repository for ${each.key} developers"
   overwrite_on_create = true
 }
 
@@ -43,8 +38,8 @@ resource "github_repository_file" "index" {
   for_each            = var.repos
   repository          = github_repository.mtc_repo[each.key].name
   branch              = "main"
-  file                = "index.html"
-  content             = "# Hello, Terraform!"
+  file                = each.value.filename
+  content             = "# Hello ${each.value.lang}!"
   overwrite_on_create = true
 }
 
