@@ -9,6 +9,18 @@ resource "github_repository" "mtc_repo" {
   description = "${each.value} Code for MTC"
   visibility  = var.env == "dev" ? "private" : "public"
   auto_init   = true
+  provisioner "local-exec" {
+    command = "gh repo view ${self.name} --web"
+  }
+
+  provisioner "local-exec" {
+    command = "gh repo clone ${self.name} --web"    
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = "rm -rf ${self.name}"    
+  }
 }
 
 

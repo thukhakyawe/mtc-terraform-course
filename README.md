@@ -30,7 +30,6 @@ terraform apply
 <span style="color: green;">For Deploy Terraform Configuration Without Confirmation</span>
 
 ```
-
 terraform apply -auto-approve  
 ```
 
