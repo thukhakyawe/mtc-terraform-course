@@ -1,3 +1,7 @@
+data "github_user" "current" {
+  username = ""
+}
+
 resource "github_repository" "mtc_repo" {
   for_each    = var.repos
   name        = "mtc-repo-${each.key}"
@@ -26,17 +30,22 @@ resource "terraform_data" "repo-clone" {
 
 
 resource "github_repository_file" "readme" {
-  for_each            = var.repos
-  repository          = github_repository.mtc_repo[each.key].name
-  branch              = "main"
-  file                = "README.md"
-  content             = "# This is ${var.env} ${each.value.lang} repository for ${each.key} developers"
+  for_each   = var.repos
+  repository = github_repository.mtc_repo[each.key].name
+  branch     = "main"
+  file       = "README.md"
+  content = templatefile("templates/readme.tftpl", {
+    env        = var.env
+    lang       = each.value.lang
+    repo       = each.key
+    authorname = data.github_user.current.name
+  })
   overwrite_on_create = true
-  lifecycle {
-    ignore_changes = [
-      content,
-    ]
-  }
+  #   lifecycle {
+  #     ignore_changes = [
+  #       content,
+  #     ]
+  #   }
 }
 
 resource "github_repository_file" "index" {
