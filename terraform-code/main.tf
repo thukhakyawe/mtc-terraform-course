@@ -1,7 +1,4 @@
-module "repos" {
-  source   = "./modules/dev-repos"
-  repo_max = 2
-  env      = "dev"
+locals {
   repos = {
     infra = {
       lang     = "terraform"
@@ -14,4 +11,18 @@ module "repos" {
       pages    = false
     }
   }
+  environments = toset(["dev", "prod"])
+}
+
+
+module "repos" {
+  source   = "./modules/dev-repos"
+  for_each = local.environments
+  repo_max = 9
+  env      = each.key
+  repos    = local.repos
+}
+
+output "repo-info" {
+  value = { for k,v in module.repos : k => v.clone-urls }
 }
