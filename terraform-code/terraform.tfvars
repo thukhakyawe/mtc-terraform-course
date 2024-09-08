@@ -4,9 +4,11 @@ repos = {
   infra = {
     lang     = "terraform"
     filename = "main.tf"
+    pages    = true
   },
   backend = {
     lang     = "python"
     filename = "python.py"
+    pages    = false
   }
 }
