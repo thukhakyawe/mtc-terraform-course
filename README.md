@@ -3,8 +3,8 @@ More Than Certified Terraform
 
 Commands List
 
-<span style="color: green;">For Github Token Remove and Access</span>
+Explanation:
 
-```
-unset GITHUB_TOKEN && gh auth login -h github.com -p https -s delete_repo -w
-```
+docker_image.nodered_image.image_id: which is the ID of the pulled Docker image.
+
+network_data[0].ip_address: This accesses the first network interface data of the container and retrieves its IP address.
