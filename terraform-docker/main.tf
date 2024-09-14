@@ -9,23 +9,6 @@ terraform {
 provider "docker" {
 }
 
-variable "ext_port" {
-  type = number
-  default = 1880  
-}
-
-variable "int_port" {
-  type = number
-  default = 1880  
-}
-
-variable "container_count" {
-  type = number
-  default = 1
-}
-
-
-
 resource "docker_image" "nodered_image" {
   name = "nodered/node-red:latest"
 }
@@ -36,8 +19,6 @@ resource "random_string" "random" {
   special = false
   upper   = false
 }
-
-
 
 resource "docker_container" "nodered_container" {
   count = var.container_count
@@ -51,21 +32,5 @@ resource "docker_container" "nodered_container" {
 
 
 
-
-output "container-name" {
-  value       = docker_container.nodered_container[*].name
-  description = "The name of the container"
-}
-
-output "IP-Address" {
-  value = [
-    for i in docker_container.nodered_container[*]:
-    join(":", [
-      i.network_data[0].ip_address,  # Fetches the IP address from the network data
-      (i.ports[0]["external"])
-    ])
-  ]
-  description = "The IP Address and External Port of the containers"
-}
 
 
