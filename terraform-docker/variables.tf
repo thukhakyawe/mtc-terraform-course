@@ -9,6 +9,7 @@ variable "image" {
 
 variable "ext_port" {
   type = map(any)
+
   validation {
     condition     = max(var.ext_port["dev"]...) <= 65535 && min(var.ext_port["dev"]...) > 0
     error_message = "External Port must be 0 to 65535"
