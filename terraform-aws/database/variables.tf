@@ -1,7 +1,7 @@
 # --- database/variables.tf ---
 
 variable "db_storage" {}
-variable "db_instance_cloass" {}
+variable "db_instance_class" {}
 variable "dbname" {}
 variable "dbuser" {}
 variable "dbpassword" {}
