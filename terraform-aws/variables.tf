@@ -3,3 +3,8 @@ variable "aws_region" {
   type        = string
   default     = "ap-southeast-1" # Or any valid region
 }
+
+
+variable "access_ip" {
+  type = string
+}
