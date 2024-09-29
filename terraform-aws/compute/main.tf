@@ -36,12 +36,19 @@ resource "aws_instance" "mtc_node" {
     {
       nodename    = "mtc-${random_id.mtc_node_id[count.index].dec}"
       db_endpoint = var.db_endpoint
-      dbuser     = var.dbuser
-      dbpass     = var.dbpassword
-      dbname     = var.dbname
+      dbuser      = var.dbuser
+      dbpass      = var.dbpassword
+      dbname      = var.dbname
     }
   )
   root_block_device {
     volume_size = var.vol_size #10
   }
+}
+
+resource "aws_lb_target_group_attachment" "mtc_tg_attach" {
+  count            = var.instance_count
+  target_group_arn = var.lb_target_group_arn
+  target_id        = aws_instance.mtc_node[count.index].id
+  port             = 8000
 }
